@@ -1,13 +1,15 @@
 //get value from form 
 $("#submit").submit(function(event){
 	event.preventDefault();
-var submittal = document.getElementById('submittal').value;
-//encode submital
-submittal = encodeURI(submittal)
+	
+//encode submital	
+var submit = document.getElementById('submittal').value;
+
+submit = encodeURI(submit)
 
 // Submit request and return results from API
 $.ajax({
-url: 'https://api.github.com/search/repositories?q=' + submittal,
+url: 'https://api.github.com/search/repositories?q=' + submit,
 method: 'GET',
 success: function(data){
 	var subArray = data.items;
@@ -20,15 +22,19 @@ success: function(data){
   	var RepoDescript = subArray[i].description;
   	
   	//Append DOM
-  	document.write(RepoName + ' by ' + RepoOwner + '<br>')
-  	document.write(RepoUrl + '<br>')
-  	document.write(RepoDescript + '<br>' + '<hr />')
-}; 
+  	$('.results').append('<h5>' + RepoName + '</h5>' + ' by ' + RepoOwner + '<br>' + RepoDescript + '<br>' + '<a href="' + RepoUrl + '">' + RepoUrl + '</a>' + '<br>' + '<hr />')
+  	
+  }; 
 
 	}
 	
 
 
 });
+//reset view
+	$('.reset').click(function(){
+		location.reload();
+	});
+ $('.reset').append('Don\'t like what you see? Click <u>here</u> to search again.')
 });
 
