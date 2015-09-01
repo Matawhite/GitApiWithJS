@@ -2,6 +2,10 @@
 $("#submit").submit(function(event){
 	event.preventDefault();
 	
+//refresh the page for new results
+$('.results, .reset').empty();
+
+	
 //encode submital	
 var submit = document.getElementById('submittal').value;
 
@@ -16,25 +20,28 @@ success: function(data){
 
 	for(i = 0; i < subArray.length; i ++){
   	var RepoName = subArray[i].full_name;
-  	//refactor if RepoOwner is undefined omit entry
-  	var RepoOwner = subArray[i].login
+  	var ownerStart = RepoName.charAt(0);
+  	var ownerEnd = RepoName.lastIndexOf('/')
+  	var RepoOwner =RepoName.substring(ownerStart,ownerEnd)
   	var RepoUrl = subArray[i].html_url;
   	var RepoDescript = subArray[i].description;
   	
+  	console.log(data.owner)
   	//Append DOM
   	$('.results').append('<h5>' + RepoName + '</h5>' + ' by ' + RepoOwner + '<br>' + RepoDescript + '<br>' + '<a href="' + RepoUrl + '">' + RepoUrl + '</a>' + '<br>' + '<hr />')
+  	
   	
   }; 
 
 	}
-	
+
+
 
 
 });
-//reset view
-	$('.reset').click(function(){
-		location.reload();
-	});
- $('.reset').append('Don\'t like what you see? Click <u>here</u> to search again.')
+
+ $('.reset').append('Don\'t like what you see? Click <a href="">here</a> to search again.')
 });
+
+
 
